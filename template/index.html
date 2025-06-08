@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Próximo Feriado no Brasil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3vmin;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 4vmin;
+            box-shadow: 0 1.5vmin 4vmin rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 95vmin;
+            min-height: 85vh;
+            text-align: center;
+            overflow: hidden;
+            padding: 4vmin;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            margin-bottom: 1vmin;
+            flex-shrink: 0;
+        }
+
+        h1 {
+            color: #1a2a6c;
+            font-size: clamp(4.5vmin, 6vw, 6vmin);
+            margin-bottom: 1vmin;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: #555;
+            font-size: clamp(2.2vmin, 2.8vw, 3vmin);
+            margin-bottom: 2vmin;
+        }
+
+        .bandeira {
+            font-size: 8vmin;
+            margin: 2vmin 0;
+            color: #FFCC00;
+            text-shadow: 0 0.4vmin 0.8vmin rgba(0, 0, 0, 0.2);
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 40vmin;
+        }
+
+        .feriado-card {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            border-radius: 3vmin;
+            padding: 4vmin 3vmin;
+            margin: 2vmin 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0.8vmin 1.8vmin rgba(0, 0, 0, 0.2);
+        }
+
+        .feriado-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+        }
+
+        .nome-feriado {
+            font-size: clamp(3.5vmin, 4.5vw, 5vmin);
+            margin-bottom: 2vmin;
+            text-shadow: 0 0.15vmin 0.4vmin rgba(0,0,0,0.2);
+            line-height: 1.3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 6vmin;
+            padding: 0 2vmin;
+        }
+
+        .data-feriado {
+            font-size: clamp(3.5vmin, 4.5vw, 4.5vmin);
+            font-weight: bold;
+            margin-bottom: 2vmin;
+            color: #ffcc00;
+        }
+
+        .contador-container {
+            margin: 2vmin 0;
+        }
+
+        .contador {
+            font-size: clamp(10vmin, 16vw, 16vmin);
+            font-weight: bold;
+            color: #ffcc00;
+            text-shadow: 0 0 1.5vmin rgba(255, 204, 0, 0.4);
+            line-height: 1;
+        }
+
+        .dias-texto {
+            font-size: clamp(2.8vmin, 3.5vw, 4vmin);
+            color: #ddd;
+            margin-top: -1vmin;
+        }
+
+        .local {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1.2vmin 4vmin;
+            border-radius: 10vmin;
+            margin-top: 1.5vmin;
+            font-size: clamp(2.3vmin, 2.8vw, 3vmin);
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding-top: 2vmin;
+            flex-shrink: 0;
+        }
+
+        .atualizar {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 2vmin 7vmin;
+            font-size: clamp(2.8vmin, 3.2vw, 3.5vmin);
+            border-radius: 10vmin;
+            cursor: pointer;
+            margin: 1vmin 0;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 0.4vmin 1.2vmin rgba(255, 107, 107, 0.3);
+        }
+
+        .atualizar:hover {
+            background: #ff5252;
+            transform: translateY(-0.2vmin);
+            box-shadow: 0 0.6vmin 1.8vmin rgba(255, 107, 107, 0.4);
+        }
+
+        .carregando {
+            font-size: clamp(3vmin, 3.5vw, 4vmin);
+            color: #1a2a6c;
+            margin: 4vmin 0;
+        }
+
+        .erro {
+            color: #ff6b6b;
+            font-size: clamp(2.8vmin, 3.2vw, 3.5vmin);
+            margin: 3vmin 0;
+            padding: 2.5vmin;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 2vmin;
+        }
+
+        .creditos {
+            color: #555;
+            font-size: clamp(1.8vmin, 2.2vw, 2.5vmin);
+            margin-top: 2vmin;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Próximo Feriado no Brasil</h1>
+            <div class="subtitle">Descubra quando será o próximo feriado nacional</div>
+            <div class="bandeira">
+                <i class="fas fa-flag"></i>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="feriado-info">
+                <div class="carregando">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando...
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button class="atualizar" onclick="buscarFeriado()">
+                <i class="fas fa-sync-alt"></i> Atualizar
+            </button>
+            <div class="creditos">
+                Dados fornecidos por Nager.Date API
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para buscar dados do próximo feriado
+        async function buscarFeriado() {
+            const container = document.getElementById('feriado-info');
+            container.innerHTML = `
+                <div class="carregando">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando...
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/proximo_feriado');
+                const data = await response.json();
+
+                if (data.erro) {
+                    throw new Error(data.erro);
+                }
+
+                container.innerHTML = `
+                    <div class="feriado-card">
+                        <div class="nome-feriado">${data.nome}</div>
+                        <div class="data-feriado">${data.data}</div>
+                        <div class="contador-container">
+                            <div class="contador">${data.dias_restantes}</div>
+                            <div class="dias-texto">dias restantes</div>
+                        </div>
+                        <div class="local">${data.local}</div>
+                    </div>
+                `;
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="erro">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Erro ao carregar dados: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Carregar os dados ao iniciar
+        document.addEventListener('DOMContentLoaded', buscarFeriado);
+
+        // Atualizar a cada 5 minutos
+        setInterval(buscarFeriado, 300000);
+    </script>
+</body>
+</html>
