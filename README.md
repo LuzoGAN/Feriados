@@ -15,12 +15,19 @@ Jinja2 (via Flask)
 pytz para manipulação de fuso horário
 🚀 Como Executar Localmente
 Clone o repositório:
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
 
 Crie um ambiente virtual e ative-o:
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
 
 Instale as dependências:
+pip install -r requirements.txt
 
 Execute o servidor Flask:
+python app.py
 
 Acesse no navegador:
 http://127.0.0.1:5000/
@@ -33,6 +40,13 @@ http://127.0.0.1:5000/
 🔄 Endpoints
 / — Página inicial (HTML)
 /proximo_feriado — Retorna os dados do próximo feriado em formato JSON:
+{
+  "nome": "Independência do Brasil",
+  "data": "07/09/2025",
+  "dias_restantes": 89,
+  "local": "Brasil"
+}
+
 
 📄 Licença
 Este projeto está licenciado sob a MIT License.
